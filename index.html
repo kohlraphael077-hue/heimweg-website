@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Heimweg</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Heimweg zeigt deiner Crew, dass du unterwegs bist, lotst dich über helle Straßen nach Hause und schlägt Alarm, wenn du nicht ankommst.">
+<meta property="og:title" content="Heimweg – gut heimkommen, gemeinsam">
+<meta property="og:description" content="Die App für den Heimweg nach dem Fortgehen. Gratis, ohne Werbung, aus Österreich.">
+<meta name="theme-color" content="#05070d">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: eine Nacht von oben nach unten. Nebel-Hero mit Handy und schwebenden Mitteilungen,
+   dann eine Scroll-Geschichte mit festem Handy, das die echten App-Bildschirme zeigt.
+   Bewusst nur dunkel: die Seite spielt nachts, wie die App. */
+:root{
+  --night:#05070d;
+  --asphalt:#0c111b;
+  --asphalt-2:#121927;
+  --kerb:#1d2535;
+  --fg:#f1f3f8;
+  --muted:#8e97ab;
+  --faint:#5b6478;
+  --blue:#0a84ff;
+  --blue-hi:#5aaeff;
+  --blue-soft:rgba(10,132,255,.15);
+  --lamp:#ffd60a;
+  --home:#30d158;
+  --alarm:#ff453a;
+  --ios:#1c1c1e;
+  --ios-2:#2c2c2e;
+  --f-display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --f-body:"Figtree",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--night);color:var(--fg);font:16px/1.6 var(--f-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--night)}
+/* feines Korn über allem, damit die dunklen Flächen nicht nach Plastik aussehen */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);font-weight:800;letter-spacing:-.04em;line-height:.98;margin:0;text-wrap:balance}
+h2{font-size:clamp(38px,5.6vw,72px)}
+h3{font-size:22px;letter-spacing:-.02em;font-weight:700;line-height:1.15}
+p{margin:0}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font:700 12px/1 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--blue-hi)}
+.eyebrow::before{content:"";width:18px;height:1.5px;background:currentColor}
+.muted{color:var(--muted)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.grad{background:linear-gradient(100deg,#fff 10%,var(--blue-hi) 55%,var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---------- Navigation ---------- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+.nav.solid{background:rgba(5,7,13,.78);backdrop-filter:saturate(1.4) blur(16px);-webkit-backdrop-filter:saturate(1.4) blur(16px);border-color:rgba(29,37,53,.8)}
+.nav .wrap{display:flex;align-items:center;gap:24px;height:66px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 21px/1 var(--f-display);letter-spacing:-.035em}
+.brand img{width:32px;height:32px;border-radius:9px;box-shadow:0 6px 18px -6px rgba(10,132,255,.7)}
+.nav ul{display:flex;gap:2px;list-style:none;margin:0 0 0 auto;padding:0}
+.nav ul a{display:block;padding:8px 13px;border-radius:10px;text-decoration:none;color:var(--muted);font-weight:500;font-size:15px;transition:color .2s,background .2s}
+.nav ul a:hover{color:var(--fg);background:rgba(255,255,255,.05)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 20px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;white-space:nowrap;transition:transform .25s var(--ease),box-shadow .25s,background .25s}
+.btn.light{background:var(--fg);color:var(--night)}
+.btn.light:hover{transform:translateY(-1px);box-shadow:0 10px 30px -10px rgba(255,255,255,.4)}
+@media (max-width:880px){.nav ul{display:none}.nav .btn{margin-left:auto}}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;overflow:hidden;isolation:isolate;margin-top:-66px;padding-top:66px}
+#fog{position:absolute;inset:0;z-index:-3;background:radial-gradient(70% 55% at 72% 38%,#0f3478 0%,rgba(5,7,13,0) 62%),radial-gradient(50% 40% at 15% 80%,#0a1c3d 0%,rgba(5,7,13,0) 70%),var(--night)}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(70% 60% at 60% 40%,#000 0%,transparent 75%);-webkit-mask-image:radial-gradient(70% 60% at 60% 40%,#000 0%,transparent 75%)}
+.hero::after{content:"";position:absolute;inset:auto 0 0;height:30%;z-index:-1;background:linear-gradient(rgba(5,7,13,0),var(--night))}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:40px;align-items:center;padding-block:70px 110px}
+.hero h1{font-size:clamp(46px,7vw,96px);letter-spacing:-.055em;line-height:.9}
+.hero h1 .l2{display:block}
+.hero .lead{font-size:clamp(17px,1.9vw,21px);line-height:1.55;color:#aab2c4;max-width:31em;margin-top:28px}
+.badge{display:inline-flex;align-items:center;gap:10px;padding:7px 14px 7px 8px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);font-size:14px;color:#c5cbd8;margin-bottom:26px}
+.badge b{font:700 11px/1 var(--f-mono);letter-spacing:.08em;padding:5px 8px;border-radius:999px;background:var(--blue);color:#fff}
+.stores{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.store{display:inline-flex;align-items:center;gap:12px;height:58px;padding:0 24px 0 18px;border-radius:16px;border:1px solid rgba(255,255,255,.12);background:rgba(12,17,27,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);text-decoration:none;transition:transform .25s var(--ease),border-color .25s}
+.store:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.28)}
+.store.main{background:var(--fg);color:var(--night);border-color:var(--fg)}
+.store.main svg{fill:var(--night)}
+.store svg{width:24px;height:24px;fill:var(--fg);flex:none}
+.store small{display:block;font-size:11px;opacity:.65;line-height:1.1}
+.store b{display:block;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em}
+.facts{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:26px;font-size:14px;color:var(--muted)}
+.facts span{display:inline-flex;align-items:center;gap:8px}
+.facts span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--home);box-shadow:0 0 8px var(--home)}
+@media (max-width:880px){.hero .wrap{grid-template-columns:1fr;gap:64px;padding-block:44px 80px}}
+
+/* ---------- Handy (gemeinsam für Hero und Geschichte) ---------- */
+.device{position:relative;width:300px;max-width:100%;aspect-ratio:300/620;border-radius:52px;padding:10px;background:linear-gradient(145deg,#3a4252 0%,#141a25 40%,#0a0d14 100%);box-shadow:0 0 0 1.5px #2e3646 inset,0 0 0 1px #000,0 50px 100px -30px rgba(10,132,255,.45),0 30px 60px -20px rgba(0,0,0,.8)}
+.device::before{content:"";position:absolute;right:-3px;top:150px;width:3px;height:70px;border-radius:0 3px 3px 0;background:#2a3140}
+.device::after{content:"";position:absolute;left:-3px;top:120px;width:3px;height:40px;border-radius:3px 0 0 3px;background:#2a3140;box-shadow:0 60px 0 #2a3140}
+.scr{position:relative;height:100%;border-radius:43px;overflow:hidden;background:#000;font-size:13px;line-height:1.35}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:92px;height:27px;border-radius:20px;background:#000;z-index:6}
+.status{position:absolute;inset:0 0 auto;height:46px;display:flex;align-items:center;justify-content:space-between;padding:4px 26px 0 30px;font:600 14px/1 var(--f-body);z-index:5;color:#fff}
+.status .sig{display:flex;gap:5px;align-items:center}
+.status .sig i{display:block;width:3px;border-radius:1px;background:#fff}
+.status .bat{width:24px;height:12px;border:1.5px solid rgba(255,255,255,.55);border-radius:4px;padding:1px;position:relative}
+.status .bat::before{content:"";display:block;height:100%;width:62%;background:#fff;border-radius:1.5px}
+.view{position:absolute;inset:0;display:flex;flex-direction:column;padding-top:46px}
+.shot{position:absolute;left:0;right:0;top:46px;bottom:0;background:#000}
+.shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+
+/* Bildschirm: Karte */
+.map{position:relative;flex:1;background:#0a0e16;overflow:hidden}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.sheet{background:var(--ios);border-radius:24px 24px 0 0;padding:14px 16px 22px;display:grid;gap:12px;margin-top:-24px;position:relative;z-index:2}
+.grab{width:36px;height:5px;border-radius:3px;background:#48484a;justify-self:center;margin-bottom:2px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pill{display:inline-flex;align-items:center;gap:6px;font:600 11.5px/1 var(--f-body);padding:6px 10px;border-radius:999px;background:var(--blue-soft);color:var(--blue-hi)}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
+.eta{font:700 36px/1 var(--f-mono);letter-spacing:-.05em}
+.small{font-size:11.5px;color:#8e8e93}
+.avatars{display:flex}
+.avatars i{width:26px;height:26px;border-radius:50%;border:2px solid var(--ios);margin-left:-8px;display:grid;place-items:center;font:700 10.5px/1 var(--f-body);font-style:normal;color:#fff}
+.avatars i:first-child{margin-left:0}
+.litbar{display:flex;align-items:center;gap:8px;font-size:12px;color:#aeaeb2}
+.litbar .bar{flex:1;height:5px;border-radius:3px;background:#3a3a3c;overflow:hidden}
+.litbar .bar i{display:block;height:100%;width:87%;background:var(--lamp);border-radius:3px}
+.homebtn{height:46px;border-radius:14px;background:#fff;color:#000;display:grid;place-items:center;font-weight:700;font-size:15px}
+
+/* Bildschirme in der Geschichte */
+.ios-head{padding:10px 18px 6px;display:grid;gap:3px}
+.ios-head small{font-size:12px;color:#8e8e93}
+.ios-head b{font:800 26px/1.1 var(--f-display);letter-spacing:-.03em}
+.list{margin:10px 14px 0;border-radius:16px;background:var(--ios);overflow:hidden}
+.li{display:flex;align-items:center;gap:12px;padding:13px 14px;border-top:.5px solid #38383a}
+.li:first-child{border-top:0}
+.li .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:none}
+.li .ic svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.li .tx{flex:1;min-width:0}
+.li .tx b{display:block;font-size:14px;font-weight:600}
+.li .tx span{font-size:12px;color:#8e8e93}
+.li .val{font:700 13px/1 var(--f-mono);color:#fff;text-align:right}
+.li.sel{background:rgba(10,132,255,.14)}
+.li .av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;flex:none;position:relative}
+.li .av.on::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--blue);animation:ring 2s infinite}
+@keyframes ring{0%{transform:scale(.9);opacity:1}100%{transform:scale(1.25);opacity:0}}
+.chip{font:600 11px/1 var(--f-body);padding:6px 9px;border-radius:999px;white-space:nowrap}
+.chip.way{background:rgba(10,132,255,.18);color:var(--blue-hi)}
+.chip.home{background:rgba(48,209,88,.16);color:var(--home)}
+.chip.out{background:#2c2c2e;color:#aeaeb2}
+.cta-ios{margin:auto 14px 26px;height:50px;border-radius:15px;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:700;font-size:15.5px}
+.check{flex:1;display:grid;place-items:center;align-content:center;gap:18px;padding:20px;text-align:center;background:radial-gradient(60% 45% at 50% 40%,rgba(255,69,58,.28),transparent 70%)}
+.ringwrap{position:relative;width:150px;height:150px}
+.ringwrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ringwrap .num{position:absolute;inset:0;display:grid;place-items:center;font:700 40px/1 var(--f-mono);letter-spacing:-.04em}
+.check h4{margin:0;font:800 26px/1.1 var(--f-display);letter-spacing:-.03em}
+.check p{color:#aeaeb2;font-size:13px;max-width:22ch}
+.btns{display:grid;gap:10px;width:100%;padding:0 14px 26px}
+.btns div{height:50px;border-radius:15px;display:grid;place-items:center;font-weight:700;font-size:15px}
+.done{flex:1;display:grid;align-content:center;justify-items:center;gap:14px;padding:24px;text-align:center;background:radial-gradient(60% 45% at 50% 38%,rgba(48,209,88,.22),transparent 70%)}
+.tick{width:96px;height:96px;border-radius:50%;background:var(--home);display:grid;place-items:center;box-shadow:0 0 0 12px rgba(48,209,88,.15),0 0 60px rgba(48,209,88,.5)}
+.tick svg{width:46px;height:46px;stroke:#04130a;stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.done h4{margin:0;font:800 28px/1.05 var(--f-display);letter-spacing:-.03em}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-top:6px}
+.stats div{background:var(--ios);border-radius:14px;padding:12px;text-align:left}
+.stats b{display:block;font:700 18px/1.1 var(--f-mono)}
+.stats span{font-size:11px;color:#8e8e93}
+
+/* schwebende Mitteilungen im Hero */
+.stage{position:relative;justify-self:center;display:grid;place-items:center;perspective:1400px}
+.stage .device{transform:rotateY(-8deg) rotateX(4deg);transition:transform .6s var(--ease)}
+.noti{position:absolute;width:250px;display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;padding:11px 13px;border-radius:20px;background:rgba(40,44,54,.72);backdrop-filter:blur(18px) saturate(1.6);-webkit-backdrop-filter:blur(18px) saturate(1.6);border:1px solid rgba(255,255,255,.1);box-shadow:0 20px 40px -14px rgba(0,0,0,.7);font-size:13px;line-height:1.3;z-index:3;animation:float 7s ease-in-out infinite}
+.noti img{width:34px;height:34px;border-radius:9px}
+.noti b{font-weight:700;font-size:13px}
+.noti .t{display:flex;justify-content:space-between;color:#aeaeb2;font-size:11.5px}
+.noti.n1{top:12%;left:-34%}
+.noti.n2{bottom:20%;right:-28%;animation-delay:-3.5s}
+@keyframes float{50%{transform:translateY(-10px)}}
+@media (max-width:1100px){.noti.n1{left:-14%}.noti.n2{right:-12%}}
+@media (max-width:880px){.stage{padding-block:40px}.noti{width:228px}.noti.n1{left:-2%;top:0}.noti.n2{top:auto;right:-2%;bottom:0}.stage .device{transform:none}}
+@media (max-width:440px){.noti.n1{left:0}.noti.n2{right:0}}
+
+/* ---------- Band ---------- */
+.band{border-block:1px solid var(--kerb);overflow:hidden;background:var(--asphalt);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.band .track{display:flex;gap:44px;width:max-content;padding-block:18px;animation:slide 44s linear infinite;font:500 13.5px/1 var(--f-mono);color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.band .track span{display:flex;align-items:center;gap:44px;white-space:nowrap}
+.band .track span::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--lamp);box-shadow:0 0 12px var(--lamp)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* ---------- Abschnitte ---------- */
+section{padding-block:120px}
+.head{display:grid;gap:20px;max-width:780px;margin-bottom:60px}
+.head p{font-size:19px;color:var(--muted);max-width:34em}
+.reveal{transition:transform .9s var(--ease)}
+.reveal.lo{transform:translateY(28px)}
+
+/* Geschichte mit festem Handy */
+.story{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:80px}
+.chapters{display:grid}
+.chapter{min-height:34vh;display:grid;align-content:center;gap:16px;max-width:30em;opacity:.35;transition:opacity .5s}
+.chapter.on{opacity:1}
+.mshot{display:none;width:112px;aspect-ratio:9/19.5;object-fit:cover;object-position:top;border-radius:18px;border:3px solid #2a3140;box-shadow:0 14px 30px -12px rgba(10,132,255,.45)}
+.chapter .k{font:700 13px/1 var(--f-mono);color:var(--blue-hi);letter-spacing:.1em}
+.chapter h3{font-size:clamp(30px,3.4vw,44px);letter-spacing:-.035em;line-height:1.02}
+.chapter p{font-size:18px;color:var(--muted)}
+.chapter.alarm .k{color:var(--alarm)}
+.chapter.home .k{color:var(--home)}
+.pin{position:sticky;top:calc(env(safe-area-inset-top,0px) + 50%);transform:translateY(-50%);height:max-content;justify-self:center}
+.pin .view{opacity:0;transition:opacity .5s var(--ease),transform .6s var(--ease);transform:scale(.97)}
+.pin .view.on{opacity:1;transform:none}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:22px}
+.dots i{width:7px;height:7px;border-radius:4px;background:var(--kerb);transition:width .4s var(--ease),background .4s}
+.dots i.on{width:22px;background:var(--blue)}
+@media (max-width:880px){
+  .story{grid-template-columns:1fr;gap:0}
+  /* Am Handy: kein festes Handy mit leeren Flächen, sondern jeder Moment mit eigenem Bild */
+  .pin{display:none}
+  .chapters{gap:14px}
+  .chapter{min-height:0;opacity:1;grid-template-columns:minmax(0,1fr) 112px;align-items:center;gap:6px 18px;padding:20px;border-radius:22px;background:var(--asphalt);border:1px solid var(--kerb);max-width:none}
+  .chapter .k,.chapter h3,.chapter p{grid-column:1}
+  .chapter h3{font-size:26px}
+  .chapter p{font-size:15.5px}
+  .chapter .mshot{display:block;grid-column:2;grid-row:1/span 3}
+}
+
+/* Funktionen – Bento */
+.bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}
+.tile{position:relative;background:linear-gradient(180deg,var(--asphalt-2),var(--asphalt));border-radius:24px;padding:28px;display:grid;gap:10px;align-content:start;min-width:0;overflow:hidden;transition:transform .35s var(--ease)}
+.tile::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.02) 40%,rgba(255,255,255,.05));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.tile:hover{transform:translateY(-3px)}
+.tile p{color:var(--muted)}
+.ico{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:var(--blue-soft);color:var(--blue-hi);margin-bottom:6px}
+.ico svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ico.red{background:rgba(255,69,58,.14);color:var(--alarm)}
+.ico.amber{background:rgba(255,214,10,.12);color:var(--lamp)}
+.ico.green{background:rgba(48,209,88,.13);color:var(--home)}
+.t-big{grid-column:span 4}.t-mid{grid-column:span 2}.t-half{grid-column:span 3}.t-third{grid-column:span 2}
+.t-big h3{font-size:32px}
+.tag{position:absolute;top:24px;right:24px;font:700 10px/1 var(--f-mono);letter-spacing:.12em;padding:6px 9px;border-radius:7px;background:linear-gradient(135deg,var(--blue),#5e5ce6);color:#fff}
+.litmap{margin-top:10px;height:clamp(240px,32vw,320px);border-radius:16px;background:#070a11;border:1px solid var(--kerb);position:relative;overflow:hidden}
+.litmap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 45%}
+.litmeter{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;font:500 13px/1.3 var(--f-mono);color:var(--muted);margin-top:6px}
+.litmeter b{color:var(--lamp)}
+.sosbtn{margin-top:12px;justify-self:start;width:92px;height:92px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#ff6b62,var(--alarm));font:800 20px/1 var(--f-display);color:#fff;box-shadow:0 0 0 10px rgba(255,69,58,.14),0 0 0 22px rgba(255,69,58,.06),0 0 50px rgba(255,69,58,.5)}
+@media (max-width:920px){.t-big,.t-mid,.t-half,.t-third{grid-column:span 6}}
+@media (min-width:921px) and (max-width:1080px){.t-third{grid-column:span 3}.t-mid{grid-column:span 2}}
+
+/* Eine Nacht */
+.night{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:60px;align-items:start}
+.log{position:relative;display:grid;padding-left:36px}
+.log::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:var(--kerb)}
+.log .draw{position:absolute;left:9px;top:8px;width:2px;height:var(--p,100%);max-height:calc(100% - 16px);background:linear-gradient(var(--blue),var(--home));box-shadow:0 0 12px rgba(10,132,255,.6)}
+.ev{position:relative;padding-bottom:34px;display:grid;gap:5px}
+.ev::before{content:"";position:absolute;left:-33px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--night);border:2px solid var(--blue)}
+.ev.home::before{border-color:var(--home);background:var(--home);box-shadow:0 0 0 6px rgba(48,209,88,.15)}
+.ev time{font:700 14px/1.3 var(--f-mono);color:var(--muted)}
+.ev b{font-size:19px;font-weight:600;letter-spacing:-.01em}
+.ev p{color:var(--muted)}
+.ev:last-child{padding-bottom:0}
+.alt{background:linear-gradient(180deg,rgba(255,69,58,.11),rgba(255,69,58,.02));border:1px solid rgba(255,69,58,.26);border-radius:24px;padding:30px;display:grid;gap:20px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px)}
+.alt .eyebrow{color:var(--alarm)}
+.alt h3{font-size:28px;letter-spacing:-.03em}
+.alt ol{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.alt li{display:grid;grid-template-columns:76px 1fr;gap:12px;align-items:baseline}
+.alt li time{font:700 14px/1 var(--f-mono);color:var(--alarm)}
+.alt .fine{font-size:14.5px;color:var(--muted);border-top:1px solid rgba(255,69,58,.2);padding-top:16px}
+@media (max-width:880px){.night{grid-template-columns:1fr}.alt{position:static}}
+
+/* Für Eltern */
+.parents-band{background:linear-gradient(180deg,var(--asphalt),var(--night));border-top:1px solid var(--kerb)}
+.parents{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:64px;align-items:center}
+.quote{font:800 clamp(32px,4vw,52px)/1.02 var(--f-display);letter-spacing:-.04em;text-wrap:balance}
+.quote span{color:var(--faint)}
+.never{margin:0;display:grid;border-radius:22px;overflow:hidden;border:1px solid var(--kerb)}
+.never div{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:20px 24px;background:rgba(12,17,27,.8);border-top:1px solid var(--kerb);align-items:baseline}
+.never div:first-child{border-top:0}
+.never dt{font:700 12px/1.4 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.never dd{margin:0}
+.never .yes{color:var(--home);font-weight:600}
+.never .no{color:var(--alarm);font-weight:600}
+@media (max-width:880px){.parents{grid-template-columns:1fr;gap:40px}.never div{grid-template-columns:1fr;gap:4px}}
+
+/* Gratis & Plus */
+.plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.plan{position:relative;border-radius:28px;padding:36px;display:grid;gap:24px;align-content:start;background:var(--asphalt);border:1px solid var(--kerb);min-width:0}
+.plan.plus{background:radial-gradient(110% 80% at 100% 0%,rgba(10,132,255,.32),transparent 55%),radial-gradient(80% 60% at 0% 100%,rgba(94,92,230,.18),transparent 60%),var(--asphalt);border-color:rgba(10,132,255,.45);box-shadow:0 40px 80px -40px rgba(10,132,255,.5)}
+.plan .price{font:800 52px/1 var(--f-display);letter-spacing:-.05em}
+.plan .price small{font:500 15px/1 var(--f-body);color:var(--muted);letter-spacing:0;margin-left:8px}
+.plan ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.plan li{display:grid;grid-template-columns:20px 1fr;gap:12px}
+.plan li::before{content:"";width:20px;height:20px;margin-top:2px;border-radius:50%;background:var(--home) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.5l3 3L14.5 7' fill='none' stroke='%2305070d' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/20px no-repeat}
+.plan.plus li::before{background-color:var(--blue)}
+.founder{display:flex;gap:16px;align-items:center;padding:18px 20px;border-radius:16px;background:rgba(10,132,255,.12);border:1px solid rgba(10,132,255,.25);font-size:15px}
+.founder b{font:800 30px/1 var(--f-display);letter-spacing:-.03em;color:var(--blue-hi)}
+@media (max-width:760px){.plans{grid-template-columns:1fr}.plan{padding:28px}}
+
+/* Fragen */
+.faq-grid{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:60px;align-items:start}
+.faq{display:grid;gap:10px}
+.faq details{background:var(--asphalt);border:1px solid var(--kerb);border-radius:18px;padding:0 24px;transition:border-color .25s}
+.faq details[open]{border-color:#2b3548}
+.faq summary{cursor:pointer;list-style:none;padding:22px 0;font-weight:600;font-size:17px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";flex:none;width:28px;height:28px;border-radius:50%;background:var(--blue-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath d='M14 9v10M9 14h10' stroke='%235aaeff' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center/28px no-repeat;transition:transform .3s var(--ease)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding-bottom:22px;color:var(--muted);max-width:62ch}
+@media (max-width:880px){.faq-grid{grid-template-columns:1fr;gap:30px}}
+
+/* Notruf + Abschluss */
+.sos{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center;border-radius:24px;padding:30px 34px;background:rgba(255,69,58,.08);border:1px solid rgba(255,69,58,.28)}
+.sos b{font-size:20px}
+.sos p{color:var(--muted);margin-top:4px}
+.numbers{display:flex;gap:10px;flex-wrap:wrap}
+.numbers span{display:grid;justify-items:center;min-width:82px;padding:13px 10px;border-radius:16px;background:var(--night);border:1px solid rgba(255,69,58,.28)}
+.numbers b{font:700 26px/1 var(--f-mono);color:var(--alarm)}
+.numbers small{font-size:12px;color:var(--muted);margin-top:5px}
+@media (max-width:760px){.sos{grid-template-columns:1fr;padding:26px}}
+.final{position:relative;text-align:center;display:grid;justify-items:center;gap:24px;padding-block:140px 110px;overflow:hidden}
+.final::before{content:"";position:absolute;left:50%;top:55%;width:min(900px,120%);aspect-ratio:2/1;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(10,132,255,.25),transparent);z-index:-1}
+.final h2{font-size:clamp(46px,8vw,104px);letter-spacing:-.055em;line-height:.92}
+.final .stores{justify-content:center;margin-top:8px}
+
+footer{border-top:1px solid var(--kerb)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center;padding-block:32px 46px;font-size:14px;color:var(--muted)}
+footer a{text-decoration:none;transition:color .2s}
+footer a:hover{color:var(--fg)}
+footer .brand{font-size:18px;color:var(--fg);margin-right:auto}
+
+@media (prefers-reduced-motion:reduce){
+  .band .track,.noti,.pill::before,.li .av.on::after{animation:none}
+  .reveal,.reveal.lo{transform:none;transition:none}
+  .chapter{opacity:1}
+}
+</style>
+
+</head>
+<body>
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="icon.png" alt="">Heimweg</a>
+    <ul>
+      <li><a href="#so-gehts">So geht's</a></li>
+      <li><a href="#funktionen">Funktionen</a></li>
+      <li><a href="#eltern">Für Eltern</a></li>
+      <li><a href="#plus">Gratis &amp; Plus</a></li>
+      <li><a href="#fragen">Fragen</a></li>
+    </ul>
+    <a class="btn light" href="#laden">App laden</a>
+  </div>
+</header>
+
+<main id="top">
+<div class="hero">
+  <div id="fog"></div>
+  <div class="wrap">
+    <div>
+      <span class="badge"><b>NEU</b>Ende November im App Store und bei Google Play</span>
+      <h1>Fortgehen ist schön. <span class="l2 grad">Gut heimkommen noch besser.</span></h1>
+      <p class="lead">Heimweg zeigt deiner Crew, dass du unterwegs bist, lotst dich über helle Straßen nach Hause und schlägt Alarm, wenn du nicht ankommst. Ohne dass jemand wach bleiben muss.</p>
+      <div class="stores" id="laden">
+        <a class="store main" href="#laden" aria-label="Bald im App Store">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.5-1-2.5-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z"/></svg>
+          <span><small>Bald im</small><b>App Store</b></span>
+        </a>
+        <a class="store" href="#laden" aria-label="Bald bei Google Play">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.8c-.3.3-.4.7-.4 1.2v16c0 .5.1.9.4 1.2l9-9.2-9-9.2zm10.1 10.3l2.7 2.8-11 6.3 8.3-9.1zm0-2.2L5.8 1.8l11 6.3-2.7 2.8zm4.1-1.9l3 1.7c.9.5.9 1.4 0 1.9l-3 1.7-3-3 3-2.3z"/></svg>
+          <span><small>Bald bei</small><b>Google Play</b></span>
+        </a>
+      </div>
+      <div class="facts"><span>Gratis</span><span>Ohne Werbung</span><span>Standort nur unterwegs</span><span>Aus Österreich</span></div>
+    </div>
+
+    <div class="stage" id="stage">
+      <div class="noti n1" aria-hidden="true"><img src="icon.png" alt=""><div><div class="t"><span>HEIMWEG</span><span>jetzt</span></div><b>Lena ist unterwegs</b><div>Ankunft ca. 02:36 · Nightline</div></div></div>
+      <div class="device" aria-label="So sieht ein laufender Heimweg in der App aus">
+        <div class="scr">
+          <div class="island"></div>
+          <div class="status"><span class="mono" id="clock">02:14</span><span class="sig"><i style="height:5px"></i><i style="height:7px"></i><i style="height:9px"></i><i style="height:11px;opacity:.4"></i><span class="bat" style="margin-left:6px"></span></span></div>
+          <div class="shot"><img src="heimweg-laeuft.jpg" alt="Heimweg-App: ein laufender Heimweg mit Countdown bis zur Ankunft"></div>
+        </div>
+      </div>
+      <div class="noti n2" aria-hidden="true"><img src="icon.png" alt=""><div><div class="t"><span>HEIMWEG</span><span>01:58</span></div><b>Noah ist daheim ✓</b><div>Automatisch erkannt</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="band" aria-hidden="true">
+  <div class="track">
+    <span>Heimweg-Timer</span><span>Helle Straßen</span><span>Sichere Orte</span><span>SOS mit 3 Sekunden halten</span><span>Fake-Anruf</span><span>Automatische Ankunft</span><span>Notfall-PIN</span><span>Akku-Schutz</span>
+    <span>Heimweg-Timer</span><span>Helle Straßen</span><span>Sichere Orte</span><span>SOS mit 3 Sekunden halten</span><span>Fake-Anruf</span><span>Automatische Ankunft</span><span>Notfall-PIN</span><span>Akku-Schutz</span>
+  </div>
+</div>
+
+<section id="so-gehts">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow">So geht's</span>
+      <h2>Von der Party bis vor die Haustür.</h2>
+      <p>Vier Momente, in denen Heimweg für dich da ist. Scroll durch und sieh dir die App an.</p>
+    </div>
+    <div class="story" id="story">
+      <div class="chapters">
+        <div class="chapter on" data-step="0">
+          <img class="mshot" src="heimweg-starten.jpg" alt="Heimweg starten" loading="lazy">
+          <span class="k">01 · LOSGEHEN</span>
+          <h3>Wähl, wie du heimkommst.</h3>
+          <p>Nightline, Taxi, zu Fuß oder bei Freunden mitfahren. Heimweg zeigt dir alles auf einen Blick, mit Preis und Ankunftszeit.</p>
+        </div>
+        <div class="chapter" data-step="1">
+          <img class="mshot" src="navi.jpg" alt="Navigation zu Fuß" loading="lazy">
+          <span class="k">02 · UNTERWEGS</span>
+          <h3>Sicher durch die Nacht.</h3>
+          <p>Das Navi sagt dir jede Abzweigung an und nimmt zu Fuß die hellen Straßen. Deine Crew sieht, dass du unterwegs bist, und niemand muss dafür wach bleiben.</p>
+        </div>
+        <div class="chapter alarm" data-step="2">
+          <img class="mshot" src="sos.jpg" alt="SOS-Bildschirm" loading="lazy">
+          <span class="k">03 · WENN WAS IST</span>
+          <h3>3 Sekunden halten.</h3>
+          <p>Mit SOS sieht deine Crew sofort deinen Standort, und deine Notfallkontakte bekommen eine SMS. Bist du überfällig, fragt Heimweg dich auch von selbst: „Alles okay?“</p>
+        </div>
+        <div class="chapter home" data-step="3">
+          <img class="mshot" src="angekommen.jpg" alt="Gut angekommen" loading="lazy">
+          <span class="k">04 · DAHEIM</span>
+          <h3>Gut angekommen.</h3>
+          <p>Die App merkt von selbst, dass du da bist. Deine Crew bekommt ein Häkchen, und dein Standort ist wieder privat.</p>
+        </div>
+      </div>
+
+      <div class="pin">
+        <div class="device">
+          <div class="scr">
+            <div class="island"></div>
+            <div class="status"><span class="mono">01:52</span><span class="sig"><i style="height:5px"></i><i style="height:7px"></i><i style="height:9px"></i><i style="height:11px"></i><span class="bat" style="margin-left:6px"></span></span></div>
+
+            <div class="view on" data-view="0"><div class="shot"><img src="heimweg-starten.jpg" alt="Heimweg starten: wohin, wie und wann"></div></div>
+            <div class="view" data-view="1"><div class="shot"><img src="navi.jpg" alt="Navigation zu Fuß nach Hause"></div></div>
+            <div class="view" data-view="2"><div class="shot"><img src="sos.jpg" alt="SOS-Knopf mit Notrufnummern"></div></div>
+            <div class="view" data-view="3"><div class="shot"><img src="angekommen.jpg" alt="Gut angekommen: die Crew bekommt ein Häkchen"></div></div>
+          </div>
+        </div>
+        <div class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="funktionen" style="padding-top:40px">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow">Funktionen</span>
+      <h2>Alles für den Weg nach Hause.</h2>
+      <p>Was dich sicher heimbringt, ist gratis. Für immer.</p>
+    </div>
+    <div class="bento">
+      <article class="tile t-big reveal">
+        <span class="ico amber"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg></span>
+        <h3>Helle Straßen</h3>
+        <p>Zu Fuß nimmt Heimweg den Weg, der am besten beleuchtet ist, auch wenn er ein paar Minuten länger dauert. Auf der Karte siehst du, welche Straßen als beleuchtet eingetragen sind.</p>
+        <div class="litmap"><img src="karte.jpg" alt="Heimweg-Karte: beleuchtete Straßen in Gelb und sichere Orte wie Polizei, Öffi-Station und offene Lokale" loading="lazy"></div>
+        <div class="litmeter"><span><b>Gelb</b> = beleuchtete Straßen</span><span>Symbole = sichere Orte, die gerade offen haben</span></div>
+      </article>
+      <article class="tile t-mid reveal">
+        <span class="ico red"><svg viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg></span>
+        <h3>SOS</h3>
+        <p>3 Sekunden halten. Deine Crew bekommt sofort deinen Standort und einen lauten Alarm. Mit Notfall-PIN auch still.</p>
+        <div class="sosbtn" aria-hidden="true">SOS</div>
+      </article>
+      <article class="tile t-third reveal">
+        <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></span>
+        <h3>Heimweg-Timer</h3>
+        <p>Kommt kein „Bin daheim“, fragt die App zuerst dich. Antwortest du nicht, erfährt es deine Crew.</p>
+      </article>
+      <article class="tile t-third reveal">
+        <span class="ico green"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><path d="M9 10l2 2 4-4"/></svg></span>
+        <h3>Sichere Orte</h3>
+        <p>Polizei, 24-Stunden-Tankstellen und Lokale, die gerade offen haben. Mit einem Tipp hin, oft auch zum Handy-Laden.</p>
+      </article>
+      <article class="tile t-third reveal">
+        <span class="ico"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span>
+        <h3>Akku-Schutz</h3>
+        <p>Wird dein Akku knapp, schickt Heimweg deiner Crew noch schnell deinen Standort, bevor das Handy ausgeht.</p>
+      </article>
+      <article class="tile t-half reveal">
+        <span class="ico"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span>
+        <h3>Fake-Anruf</h3>
+        <p>Unangenehme Situation? Lass dein Handy klingeln, mit echtem Anruf-Bildschirm. Ein guter Grund, sofort zu gehen.</p>
+      </article>
+      <article class="tile t-half reveal">
+        <span class="tag">PLUS</span>
+        <span class="ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18.5 20a6.5 6.5 0 0 0-3-5.5"/></svg></span>
+        <h3>Gruppen-Abend &amp; Taxi-Kassa</h3>
+        <p>Wer fährt mit wem heim, wer ist schon daheim, wer schuldet wem fürs Taxi. Alles an einem Ort.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="nacht" style="padding-top:40px">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow">Eine Nacht mit Heimweg</span>
+      <h2>So läuft ein Samstag.</h2>
+    </div>
+    <div class="night">
+      <div class="log" id="log">
+        <span class="draw" aria-hidden="true"></span>
+        <div class="ev"><time>22:40</time><b>Abend angelegt</b><p>Lena, Noah und du: Wer fährt mit wem heim? Steht schon fest, bevor's losgeht.</p></div>
+        <div class="ev"><time>01:52</time><b>Heimweg gestartet</b><p>Nightline, Ankunft ca. 02:36. Deine Crew sieht, dass du unterwegs bist.</p></div>
+        <div class="ev"><time>02:14</time><b>Ausgestiegen, zu Fuß weiter</b><p>„In 200 Metern links.“ Das Navi nimmt die helle Straße statt der Abkürzung durch den Park.</p></div>
+        <div class="ev home"><time>02:33</time><b>Daheim</b><p>Automatisch erkannt. Die Crew bekommt ein Häkchen, dein Standort ist wieder privat.</p></div>
+      </div>
+      <aside class="alt">
+        <span class="eyebrow">Und wenn nicht?</span>
+        <h3>Wenn du dich nicht meldest, merkt es jemand.</h3>
+        <ol>
+          <li><time>02:51</time><span>Du bist 15 Minuten über der Zeit. Das Handy fragt: „Alles okay?“</span></li>
+          <li><time>+60 s</time><span>Keine Antwort: Deine Crew bekommt einen Alarm mit deinem letzten Standort.</span></li>
+          <li><time>+5 Min.</time><span>Niemand reagiert: Deine Notfallkontakte bekommen eine SMS.</span></li>
+        </ol>
+        <p class="fine">Das klappt auch, wenn dein Akku leer ist. Dann schlägt der Server Alarm, nicht dein Handy.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section id="eltern" class="parents-band">
+  <div class="wrap parents">
+    <div style="display:grid;gap:24px" class="reveal">
+      <span class="eyebrow">Für Eltern</span>
+      <p class="quote">Kein Dauer-Tracking. <span>Nur Bescheid wissen, wenn es zählt.</span></p>
+      <p class="muted" style="font-size:18px;max-width:32em">Jugendliche teilen ihren Standort nur, solange sie heimgehen. Deshalb nutzen sie die App auch wirklich, und Sie bekommen die eine Nachricht, auf die Sie warten: „Daheim“.</p>
+    </div>
+    <dl class="never reveal">
+      <div><dt>Unterwegs</dt><dd><span class="yes">Standort sichtbar</span> für die eigene Crew, bis zur Ankunft</dd></div>
+      <div><dt>Daheim</dt><dd><span class="no">Kein Standort.</span> Nie, auch nicht für uns</dd></div>
+      <div><dt>Notfall</dt><dd>Alarm an die Crew, danach SMS an Notfallkontakte, auch ohne Akku</dd></div>
+      <div><dt>Werbung</dt><dd><span class="no">Keine.</span> Daten werden nicht verkauft</dd></div>
+      <div><dt>Familie</dt><dd>Ein Familien-Abo für bis zu 6 Personen, 39,99 € im Jahr</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="plus">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow">Gratis &amp; Plus</span>
+      <h2>Sicherheit kostet nichts. Komfort ein bisschen.</h2>
+      <p>Heimweg ist gratis. Mit Plus kommen Extras für den ganzen Abend dazu. Die ersten 7 Tage sind gratis, kündigen geht jederzeit.</p>
+    </div>
+    <div class="plans">
+      <div class="plan reveal">
+        <div><span class="eyebrow" style="color:var(--home)">Gratis</span><p class="price" style="margin-top:14px">0 €<small>für immer</small></p></div>
+        <ul>
+          <li>Heimweg mit der Crew teilen und automatische Ankunft</li>
+          <li>Automatischer Alarm mit „Alles okay?“</li>
+          <li>SOS, Notfall-PIN und SMS an Notfallkontakte</li>
+          <li>Sichere Orte, helle Wege und Route nach Hause</li>
+          <li>Fake-Anruf, Akku-Schutz und Crew-Chat</li>
+          <li>1 Crew, Verlauf der letzten 7 Tage</li>
+        </ul>
+      </div>
+      <div class="plan plus reveal">
+        <div><span class="eyebrow">Heimweg Plus</span><p class="price" style="margin-top:14px">19,99 €<small>pro Jahr</small></p><p class="muted" style="margin-top:10px">oder 2,99 € im Monat · 7 Tage gratis testen</p></div>
+        <ul>
+          <li>Gruppen-Abend: wer fährt mit wem, wer ist daheim</li>
+          <li>Taxi-Kassa mit Abrechnung zum Teilen</li>
+          <li>Navi mit Sprachansagen</li>
+          <li>Bis zu 10 Crews und der ganze Verlauf</li>
+          <li>Eigener Fake-Anruf mit echter Stimme</li>
+          <li>Wochen-Übersicht, Medaillen und Jahresrückblick</li>
+          <li>Familien-Abo für bis zu 6 Personen</li>
+        </ul>
+        <div class="founder"><b>39,99 €</b><span>Familien-Abo pro Jahr: Eltern zahlen einmal, bis zu 6 Leute haben Plus.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fragen" style="padding-top:40px">
+  <div class="wrap faq-grid">
+    <div class="head reveal" style="margin:0;position:sticky;top:calc(env(safe-area-inset-top,0px) + 100px)">
+      <span class="eyebrow">Fragen</span>
+      <h2>Gut zu wissen.</h2>
+      <p>Mehr Antworten findest du in der <a href="hilfe.html" style="color:var(--blue-hi)">Hilfe</a>.</p>
+    </div>
+    <div class="faq">
+      <details open><summary>Wer sieht meinen Standort?</summary><p>Nur die Leute in deiner Crew, und nur während eines Heimwegs, bei SOS, bei einem Alarm oder wenn der Akku-Schutz greift. Sonst nie, auch nicht wir als Betreiber.</p></details>
+      <details><summary>Ruft Heimweg die Polizei?</summary><p>Nein. Das entscheidet immer ein Mensch, also du oder deine Crew. Die App zeigt deiner Crew aber einen Knopf für 133 und was man am Telefon sagen soll.</p></details>
+      <details><summary>Was ist die Notfall-PIN?</summary><p>Ein zweiter Code. Gibst du ihn ein, sieht es auf deinem Handy so aus, als wäre der Alarm beendet. Deine Crew bekommt aber einen stillen Alarm. Für Situationen, in denen dich jemand zwingt, den Alarm abzubrechen.</p></details>
+      <details><summary>Mein Akku ist leer. Was dann?</summary><p>Der Server merkt, wenn du deutlich über deiner geplanten Ankunftszeit bist und dich nicht meldest, und alarmiert deine Crew, auch ohne dein Handy.</p></details>
+      <details><summary>Wie kündige ich Plus?</summary><p>Jederzeit in den Abo-Einstellungen deines Apple- oder Google-Kontos. Plus bleibt bis zum Ende der bezahlten Zeit aktiv. Wer in den 7 Gratis-Tagen kündigt, zahlt nichts.</p></details>
+      <details><summary>Brauche ich ein Konto?</summary><p>Nein. Du kannst sofort loslegen. Ein Konto mit E-Mail brauchst du nur, wenn du deine Crew aufs neue Handy mitnehmen willst.</p></details>
+      <details><summary>Wie lösche ich meine Daten?</summary><p>In der App unter „Ich → Konto &amp; Datenschutz → Konto endgültig löschen“. Damit werden deine Daten am Server gelöscht.</p></details>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="sos reveal">
+    <div><b>Heimweg ersetzt keinen Notruf.</b><p>Wenn du in Gefahr bist, ruf direkt an.</p></div>
+    <div class="numbers"><span><b>112</b><small>Euronotruf</small></span><span><b>133</b><small>Polizei</small></span><span><b>144</b><small>Rettung</small></span></div>
+  </div>
+</div>
+
+<div class="final">
+  <div class="wrap" style="display:grid;justify-items:center;gap:24px">
+    <h2>Gut heimkommen.<br><span class="grad">Gemeinsam.</span></h2>
+    <p class="muted" style="font-size:19px">Ende November im App Store und bei Google Play.</p>
+    <div class="stores">
+      <a class="store main" href="#laden" aria-label="Bald im App Store"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.5-1-2.5-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z"/></svg><span><small>Bald im</small><b>App Store</b></span></a>
+      <a class="store" href="#laden" aria-label="Bald bei Google Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.8c-.3.3-.4.7-.4 1.2v16c0 .5.1.9.4 1.2l9-9.2-9-9.2zm10.1 10.3l2.7 2.8-11 6.3 8.3-9.1zm0-2.2L5.8 1.8l11 6.3-2.7 2.8zm4.1-1.9l3 1.7c.9.5.9 1.4 0 1.9l-3 1.7-3-3 3-2.3z"/></svg><span><small>Bald bei</small><b>Google Play</b></span></a>
+    </div>
+  </div>
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="icon.png" alt="">Heimweg</a>
+    <a href="hilfe.html">Hilfe</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>
+    <a href="impressum.html">Impressum</a>
+    <span>© 2026 Heimweg</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.fog.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var lenis = null;
+  var handlers = [];
+  function onScroll(fn) { handlers.push(fn); }
+  function tick() { for (var i = 0; i < handlers.length; i++) handlers[i](); }
+
+  // Weiches Scrollen
+  try {
+    if (window.Lenis && !reduce) {
+      lenis = new Lenis({ lerp: 0.09 });
+      (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(0);
+      lenis.on('scroll', tick);
+      document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var id = a.getAttribute('href');
+          var el = id.length > 1 ? document.querySelector(id) : null;
+          if (!el) return;
+          e.preventDefault();
+          lenis.scrollTo(el, { offset: -72, duration: 1.4 });
+        });
+      });
+    }
+  } catch (e) {}
+  if (!lenis) window.addEventListener('scroll', tick, { passive: true });
+  window.addEventListener('resize', tick);
+
+  // Nebel im Hero
+  try {
+    if (window.VANTA && !reduce) {
+      VANTA.FOG({
+        el: '#fog', mouseControls: false, touchControls: false, gyroControls: false,
+        highlightColor: 0x1d5fd1, midtoneColor: 0x0f2350, lowlightColor: 0x05070d, baseColor: 0x05070d,
+        blurFactor: 0.6, speed: 0.6, zoom: 0.8
+      });
+    }
+  } catch (e) {}
+
+  // Navigation bekommt Hintergrund, sobald man scrollt
+  var nav = document.getElementById('nav');
+  onScroll(function () { nav.classList.toggle('solid', window.scrollY > 20); });
+
+  // Uhrzeit im Hero-Handy läuft mit (02:14 aufwärts, wie in der Nacht)
+  var clock = document.getElementById('clock');
+  if (clock && !reduce) {
+    var m = 14;
+    setInterval(function () { m = m >= 35 ? 14 : m + 1; clock.textContent = '02:' + (m < 10 ? '0' : '') + m; }, 4000);
+  }
+
+  // Handy im Hero kippt leicht mit der Maus
+  var stage = document.getElementById('stage');
+  if (stage && !reduce && window.matchMedia('(pointer:fine)').matches) {
+    var dev = stage.querySelector('.device');
+    window.addEventListener('mousemove', function (e) {
+      var x = e.clientX / window.innerWidth - 0.5, y = e.clientY / window.innerHeight - 0.5;
+      dev.style.transform = 'rotateY(' + (-8 + x * 10).toFixed(2) + 'deg) rotateX(' + (4 - y * 8).toFixed(2) + 'deg)';
+    });
+  }
+
+  // Geschichte: Kapitel steuert den Bildschirm im festen Handy
+  var chapters = [].slice.call(document.querySelectorAll('.chapter'));
+  var views = [].slice.call(document.querySelectorAll('.pin .view'));
+  var dots = [].slice.call(document.querySelectorAll('.pin .dots i'));
+  var current = 0;
+  function setStep(n) {
+    if (n === current) return;
+    current = n;
+    chapters.forEach(function (c, i) { c.classList.toggle('on', i === n); });
+    views.forEach(function (v, i) { v.classList.toggle('on', i === n); });
+    dots.forEach(function (d, i) { d.classList.toggle('on', i === n); });
+  }
+  if (chapters.length) {
+    onScroll(function () {
+      var mid = window.innerHeight * (window.innerWidth <= 880 ? 0.72 : 0.5), best = 0, bestD = 1e9;
+      chapters.forEach(function (c, i) {
+        var r = c.getBoundingClientRect(), d = Math.abs(r.top + r.height / 2 - mid);
+        if (d < bestD) { bestD = d; best = i; }
+      });
+      setStep(best);
+    });
+  }
+
+  // Zeitstrahl füllt sich beim Scrollen (in Ruhe ist er voll sichtbar)
+  var log = document.getElementById('log');
+  if (log && !reduce) {
+    var draw = log.querySelector('.draw');
+    onScroll(function () {
+      var r = log.getBoundingClientRect();
+      var p = (window.innerHeight * 0.65 - r.top) / r.height;
+      draw.style.setProperty('--p', (Math.max(0.06, Math.min(1, p)) * 100).toFixed(1) + '%');
+    });
+  }
+
+  // Sanftes Hineingleiten (nur Bewegung, Inhalte sind immer sichtbar)
+  if (!reduce && 'IntersectionObserver' in window) {
+    var els = [].slice.call(document.querySelectorAll('.reveal'));
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.remove('lo'); io.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.top > window.innerHeight) { el.classList.add('lo'); io.observe(el); }
+    });
+  }
+
+  tick();
+})();
+</script>
+</body>
+</html>

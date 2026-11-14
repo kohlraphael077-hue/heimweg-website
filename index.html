@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Heimweg</title>
+<title>Heimweg – sicher heim nach der Party | App für Jugendliche in Österreich</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Heimweg zeigt deiner Crew, dass du unterwegs bist, lotst dich über helle Straßen nach Hause und schlägt Alarm, wenn du nicht ankommst.">
+<meta name="description" content="Heimweg zeigt deiner Crew, dass du unterwegs bist, lotst dich über helle Straßen nach Hause und schlägt Alarm, wenn du nicht ankommst. Mit SOS-Countdown, Sturzerkennung und echten Events in ganz Österreich.">
 <meta property="og:title" content="Heimweg – gut heimkommen, gemeinsam">
 <meta property="og:description" content="Die App für den Heimweg nach dem Fortgehen. Gratis, ohne Werbung, aus Österreich.">
 <meta name="theme-color" content="#05070d">
@@ -332,6 +332,16 @@ footer .brand{font-size:18px;color:var(--fg);margin-right:auto}
   .reveal,.reveal.lo{transform:none;transition:none}
   .chapter{opacity:1}
 }
+
+/* Events */
+.evstrip{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 18px;scrollbar-width:none}
+.evstrip::-webkit-scrollbar{display:none}
+.evp{position:relative;flex:none;width:min(260px,70vw);aspect-ratio:4/5;border-radius:22px;overflow:hidden;background:#05050a;scroll-snap-align:start;box-shadow:0 30px 60px -30px rgba(10,132,255,.45);transition:transform .3s}
+.evp:hover{transform:translateY(-4px) rotate(-.4deg)}
+.evp img,.evp svg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.evstats{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.evstats span{background:var(--asphalt);border:1px solid var(--kerb);border-radius:999px;padding:8px 14px;font-size:14px;color:var(--muted)}
+.evstats b{color:var(--fg)}
 </style>
 
 </head>
@@ -342,6 +352,7 @@ footer .brand{font-size:18px;color:var(--fg);margin-right:auto}
     <ul>
       <li><a href="#so-gehts">So geht's</a></li>
       <li><a href="#funktionen">Funktionen</a></li>
+      <li><a href="#events">Events</a></li>
       <li><a href="#eltern">Für Eltern</a></li>
       <li><a href="#plus">Gratis &amp; Plus</a></li>
       <li><a href="#fragen">Fragen</a></li>
@@ -368,7 +379,7 @@ footer .brand{font-size:18px;color:var(--fg);margin-right:auto}
           <span><small>Bald bei</small><b>Google Play</b></span>
         </a>
       </div>
-      <div class="facts"><span>Gratis</span><span>Ohne Werbung</span><span>Standort nur unterwegs</span><span>Aus Österreich</span></div>
+      <div class="facts"><span>Gratis</span><span>Ohne Werbung</span><span>Standort nur, wenn du willst</span><span>Echte Events</span><span>Aus Österreich</span></div>
     </div>
 
     <div class="stage" id="stage">
@@ -387,8 +398,8 @@ footer .brand{font-size:18px;color:var(--fg);margin-right:auto}
 
 <div class="band" aria-hidden="true">
   <div class="track">
-    <span>Heimweg-Timer</span><span>Helle Straßen</span><span>Sichere Orte</span><span>SOS mit 3 Sekunden halten</span><span>Fake-Anruf</span><span>Automatische Ankunft</span><span>Notfall-PIN</span><span>Akku-Schutz</span>
-    <span>Heimweg-Timer</span><span>Helle Straßen</span><span>Sichere Orte</span><span>SOS mit 3 Sekunden halten</span><span>Fake-Anruf</span><span>Automatische Ankunft</span><span>Notfall-PIN</span><span>Akku-Schutz</span>
+    <span>Heimweg-Timer</span><span>Helle Straßen</span><span>Sichere Orte</span><span>SOS mit Countdown</span><span>Sturzerkennung</span><span>Events in deiner Nähe</span><span>Fake-Anruf</span><span>Automatische Ankunft</span><span>Notfall-PIN</span><span>Akku-Schutz</span>
+    <span>Heimweg-Timer</span><span>Helle Straßen</span><span>Sichere Orte</span><span>SOS mit Countdown</span><span>Sturzerkennung</span><span>Events in deiner Nähe</span><span>Fake-Anruf</span><span>Automatische Ankunft</span><span>Notfall-PIN</span><span>Akku-Schutz</span>
   </div>
 </div>
 
@@ -416,8 +427,8 @@ footer .brand{font-size:18px;color:var(--fg);margin-right:auto}
         <div class="chapter alarm" data-step="2">
           <img class="mshot" src="sos.jpg" alt="SOS-Bildschirm" loading="lazy">
           <span class="k">03 · WENN WAS IST</span>
-          <h3>3 Sekunden halten.</h3>
-          <p>Mit SOS sieht deine Crew sofort deinen Standort, und deine Notfallkontakte bekommen eine SMS. Bist du überfällig, fragt Heimweg dich auch von selbst: „Alles okay?“</p>
+          <h3>Einmal tippen.</h3>
+          <p>SOS startet einen 10-Sekunden-Countdown. Fehlalarm? Einfach abbrechen. Danach sieht deine Crew sofort deinen Standort, und deine Notfallkontakte bekommen eine SMS. Stürzt du, startet der Countdown von selbst.</p>
         </div>
         <div class="chapter home" data-step="3">
           <img class="mshot" src="angekommen.jpg" alt="Gut angekommen" loading="lazy">
@@ -463,7 +474,7 @@ footer .brand{font-size:18px;color:var(--fg);margin-right:auto}
       <article class="tile t-mid reveal">
         <span class="ico red"><svg viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg></span>
         <h3>SOS</h3>
-        <p>3 Sekunden halten. Deine Crew bekommt sofort deinen Standort und einen lauten Alarm. Mit Notfall-PIN auch still.</p>
+        <p>Einmal tippen, 10 Sekunden zum Abbrechen, dann bekommt deine Crew deinen Standort und einen lauten Alarm. Erkennt auch Stürze von selbst. Mit Notfall-PIN auch still.</p>
         <div class="sosbtn" aria-hidden="true">SOS</div>
       </article>
       <article class="tile t-third reveal">
@@ -492,7 +503,30 @@ footer .brand{font-size:18px;color:var(--fg);margin-right:auto}
         <h3>Gruppen-Abend &amp; Taxi-Kassa</h3>
         <p>Wer fährt mit wem heim, wer ist schon daheim, wer schuldet wem fürs Taxi. Alles an einem Ort.</p>
       </article>
+      <article class="tile t-half reveal">
+        <span class="ico red"><svg viewBox="0 0 24 24"><path d="M12 4v9M8 9l4 4 4-4M5 20h14"/></svg></span>
+        <h3>Sturzerkennung</h3>
+        <p>Fällt das Handy aus zwei, drei Metern und schlägt hart auf, startet der SOS-Countdown von selbst. Alles okay? Ein Tipp, und nichts passiert.</p>
+      </article>
+      <article class="tile t-half reveal">
+        <span class="ico green"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 21s7-5.6 7-11a7 7 0 0 0-14 0c0 5.4 7 11 7 11z"/></svg></span>
+        <h3>Standort teilen, wenn du willst</h3>
+        <p>Wie bei „Wo ist?“: Du entscheidest pro Freund, wer dich dauerhaft auf der Karte sieht. Freiwillig, jederzeit pausierbar. Ohne Freigabe nur beim Heimweg.</p>
+      </article>
     </div>
+  </div>
+</section>
+
+<section id="events" style="padding-top:40px">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow">Events</span>
+      <h2>Was geht am Wochenende?</h2>
+      <p>Echte Partys, Clubbings, Konzerte und Bälle in ganz Österreich, mit Alter, Uhrzeit und dem Heimweg gleich dazu. Zweimal pro Woche neu.</p>
+    </div>
+    <div class="evstrip" id="evstrip" aria-live="polite"></div>
+    <div class="evstats reveal" id="evstats"></div>
+    <p class="fine muted" style="margin-top:14px;font-size:13px">Termine laut Veranstalter, Quelle bei jedem Event in der App. Fotos: Unsplash.</p>
   </div>
 </section>
 
@@ -529,11 +563,11 @@ footer .brand{font-size:18px;color:var(--fg);margin-right:auto}
     <div style="display:grid;gap:24px" class="reveal">
       <span class="eyebrow">Für Eltern</span>
       <p class="quote">Kein Dauer-Tracking. <span>Nur Bescheid wissen, wenn es zählt.</span></p>
-      <p class="muted" style="font-size:18px;max-width:32em">Jugendliche teilen ihren Standort nur, solange sie heimgehen. Deshalb nutzen sie die App auch wirklich, und Sie bekommen die eine Nachricht, auf die Sie warten: „Daheim“.</p>
+      <p class="muted" style="font-size:18px;max-width:32em">Jugendliche teilen ihren Standort nur, solange sie heimgehen, außer sie geben ihn selbst für einzelne Freunde oder die Familie frei. Deshalb nutzen sie die App auch wirklich, und Sie bekommen die eine Nachricht, auf die Sie warten: „Daheim“.</p>
     </div>
     <dl class="never reveal">
       <div><dt>Unterwegs</dt><dd><span class="yes">Standort sichtbar</span> für die eigene Crew, bis zur Ankunft</dd></div>
-      <div><dt>Daheim</dt><dd><span class="no">Kein Standort.</span> Nie, auch nicht für uns</dd></div>
+      <div><dt>Daheim</dt><dd><span class="no">Kein Standort</span>, außer man gibt ihn selbst frei. Für uns nie</dd></div>
       <div><dt>Notfall</dt><dd>Alarm an die Crew, danach SMS an Notfallkontakte, auch ohne Akku</dd></div>
       <div><dt>Werbung</dt><dd><span class="no">Keine.</span> Daten werden nicht verkauft</dd></div>
       <div><dt>Familie</dt><dd>Ein Familien-Abo für bis zu 6 Personen, 39,99 € im Jahr</dd></div>
@@ -585,7 +619,9 @@ footer .brand{font-size:18px;color:var(--fg);margin-right:auto}
       <p>Mehr Antworten findest du in der <a href="hilfe.html" style="color:var(--blue-hi)">Hilfe</a>.</p>
     </div>
     <div class="faq">
-      <details open><summary>Wer sieht meinen Standort?</summary><p>Nur die Leute in deiner Crew, und nur während eines Heimwegs, bei SOS, bei einem Alarm oder wenn der Akku-Schutz greift. Sonst nie, auch nicht wir als Betreiber.</p></details>
+      <details open><summary>Wer sieht meinen Standort?</summary><p>Nur die Leute in deiner Crew, und nur während eines Heimwegs, bei SOS, bei einem Alarm oder wenn der Akku-Schutz greift. Zusätzlich kannst du unter „Ich“ einzelne Freunde auswählen, die dich dauerhaft sehen, wie bei „Wo ist?“. Das ist freiwillig und jederzeit pausierbar. Wir als Betreiber schauen nie hinein.</p></details>
+      <details><summary>Was passiert, wenn ich stürze?</summary><p>Fällt dein Handy aus etwa zwei Metern oder mehr und schlägt hart auf, startet der SOS-Countdown von selbst. Du hast 10 Sekunden zum Abbrechen. Reagierst du nicht, bekommt deine Crew einen Alarm mit deinem Standort.</p></details>
+      <details><summary>Woher kommen die Events?</summary><p>Wir sammeln zweimal pro Woche echte Termine von Clubs, Veranstaltern und Event-Seiten in ganz Österreich, mit Quelle, Uhrzeit und Mindestalter, wenn der Veranstalter es nennt. Du bist Veranstalter und willst dein Event drin haben? Schreib an kontakt@heimweg.at.</p></details>
       <details><summary>Ruft Heimweg die Polizei?</summary><p>Nein. Das entscheidet immer ein Mensch, also du oder deine Crew. Die App zeigt deiner Crew aber einen Knopf für 133 und was man am Telefon sagen soll.</p></details>
       <details><summary>Was ist die Notfall-PIN?</summary><p>Ein zweiter Code. Gibst du ihn ein, sieht es auf deinem Handy so aus, als wäre der Alarm beendet. Deine Crew bekommt aber einen stillen Alarm. Für Situationen, in denen dich jemand zwingt, den Alarm abzubrechen.</p></details>
       <details><summary>Mein Akku ist leer. Was dann?</summary><p>Der Server merkt, wenn du deutlich über deiner geplanten Ankunftszeit bist und dich nicht meldest, und alarmiert deine Crew, auch ohne dein Handy.</p></details>
@@ -736,6 +772,417 @@ footer .brand{font-size:18px;color:var(--fg);margin-right:auto}
   }
 
   tick();
+})();
+</script>
+<script>
+/* Plakat-Generator – derselbe wie in der App */
+(function(){/**
+ * Plakat-Generator: zeichnet für jedes Event ein eigenes Cover im Party-Plakat-Look (SVG als Text).
+ * Kein fremdes Bildmaterial – alles wird aus Titel, Datum, Location und Art erzeugt.
+ * Läuft in der App (react-native-svg → SvgXml) und in der Web-Vorschau (innerHTML) gleich.
+ * Nur SVG-Grundformen + Verläufe + Muster, keine Filter (die kann react-native-svg nicht überall).
+ */
+// Freie Fotos von Unsplash (Unsplash-Lizenz: kostenlos, auch kommerziell, ohne Namensnennung)
+const PH = {
+    club: '1541126274323-dbac58d14741,1651065699236-6a6885503943,1663668566971-afaa3f07903d,1541296481353-b1eb3a4e0309,1648090322527-138e464a299e,1584352604394-c2c6f06e00c1,1570207859654-a9a7ad65ed3d,1651065700017-a741fc4a7f26,1773875391527-b11ee24c7b68,1588007375246-3ee823ef4851,1532134358497-43fa3c6a02b0,1558043279-a860bfe6d3b5,1772053967117-bcfc40492f2f,1534515538060-80212d73acb6',
+    party: '1509824227185-9c5a01ceba0d,1603910234616-3b5f4a6be2b4,1656283384093-1e227e621fad,1604364505966-e35d40abb1ae,1630395822970-acd6a691d97e,1626439635784-ed6d0f6ea455,1640103856233-833930665307,1558273246-57d22047406d,1659273145156-cea9b5f1192a',
+    konzert: '1563841930606-67e2bce48b78,1565035010268-a3816f98589a,1488036106564-87ecb155bb15,1629327896333-7ecec1515ae5,1525018923-1ebe8261a6a6,1670028514318-0ac718c0590d,1577648884063-1d3d1477b8a7,1563726351554-179049599895',
+    fest: '1619229725920-ac8b63b0631a,1659273145177-8287f277c817,1659273145156-cea9b5f1192a,1626439635784-ed6d0f6ea455',
+    ball: '1566596343373-30675086c273,1526568929-7cdd510e77fd,1775601258812-b8d41b699eab,1622379196672-ce41061354b5,1625126063811-b98163431cf6',
+    markt: '1544176617-98a2c9f5ba9e,1733991354048-26f6b5eb7e81,1576201018761-8952329c07df,1544176617-2912b50fb610,1575410813944-8fe3f5dca6fe,1765044203136-fa42c59771ff,1732989359382-1f37cde4479e',
+    krampus: '1648834118219-b9de77f6a8c6,1575844261401-d69721eb5044,1765308913250-bbd36367acf6,1788702456611-86cdebdf9b2c',
+    eis: '1609987052013-0f4e84e9ff5d,1739230325274-09af9570d393,1774060526891-6a985a86f745,1749303934479-338e379cde0f',
+    kinder: '1707404748656-bc4c522b72c7,1771676389220-8932767ffdfc,1576201018761-8952329c07df',
+};
+/** Passendes Foto für ein Event (immer dasselbe für dasselbe Event) */
+function posterPhoto(e, w = 720) {
+    const tl = e.title.toLowerCase();
+    const cat = e.fam
+        ? /krampus|perchten/.test(tl)
+            ? 'krampus'
+            : e.kind === 'ausflug' || /eis/.test(tl)
+                ? 'eis'
+                : e.kind === 'kinder'
+                    ? 'kinder'
+                    : 'markt'
+        : e.kind === 'ball'
+            ? 'ball'
+            : e.kind === 'konzert'
+                ? 'konzert'
+                : e.kind === 'fest'
+                    ? 'fest'
+                    : e.kind === 'party'
+                        ? 'party'
+                        : 'club';
+    const list = PH[cat].split(',');
+    const id = list[hash(String(e.id) + e.title) % list.length];
+    return `https://images.unsplash.com/photo-${id}?w=${w}&h=${Math.round(w * 1.25)}&fit=crop&crop=entropy&q=70&auto=format`;
+}
+const NIGHT = [
+    { bg0: '#0B0118', bg1: '#2A0845', a: '#FF2BD6', b: '#7B5CFF', ink: '#FFFFFF', sub: '#F5C6FF' }, // Ultraviolet
+    { bg0: '#030303', bg1: '#0E1A07', a: '#C6FF00', b: '#00F0FF', ink: '#F4FFD6', sub: '#C6FF00' }, // Acid
+    { bg0: '#120000', bg1: '#3A0700', a: '#FF3D00', b: '#FFB800', ink: '#FFF4E0', sub: '#FFB800' }, // Inferno
+    { bg0: '#00101C', bg1: '#00304D', a: '#00E1FF', b: '#7DF9FF', ink: '#EAFBFF', sub: '#7DF9FF' }, // Ice
+    { bg0: '#12002B', bg1: '#3D0066', a: '#FF6EC7', b: '#00D4FF', ink: '#FFFFFF', sub: '#FFB3E3' }, // Miami
+    { bg0: '#070707', bg1: '#1A1A1A', a: '#FF2D2D', b: '#FFFFFF', ink: '#FFFFFF', sub: '#FF6B6B' }, // Mono Red
+    { bg0: '#04130E', bg1: '#0A3A2A', a: '#00FFA3', b: '#B6FF6E', ink: '#E9FFF5', sub: '#00FFA3' }, // Emerald
+    { bg0: '#1A0710', bg1: '#4A0F2B', a: '#FF8A3D', b: '#FF3D7F', ink: '#FFF1E6', sub: '#FFB38A' }, // Sunset
+];
+const GOLD = { bg0: '#0B0802', bg1: '#2A1E05', a: '#E9C46A', b: '#FFF1C9', ink: '#FFF6DE', sub: '#E9C46A' };
+const FAM = [
+    { bg0: '#1B0505', bg1: '#4A0E0E', a: '#FFC56B', b: '#FF6B5A', ink: '#FFF5E6', sub: '#FFC56B' },
+    { bg0: '#03121F', bg1: '#0B2E4A', a: '#BFE6FF', b: '#FFD98A', ink: '#F2FAFF', sub: '#BFE6FF' },
+    { bg0: '#06160D', bg1: '#123D24', a: '#FFD98A', b: '#FF8A6B', ink: '#F4FFF6', sub: '#FFD98A' },
+];
+const WD = ['SO', 'MO', 'DI', 'MI', 'DO', 'FR', 'SA'];
+const MO = ['JÄN', 'FEB', 'MÄR', 'APR', 'MAI', 'JUN', 'JUL', 'AUG', 'SEP', 'OKT', 'NOV', 'DEZ'];
+function hash(s) {
+    let h = 2166136261;
+    for (let i = 0; i < s.length; i++) {
+        h ^= s.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+    }
+    return h >>> 0;
+}
+function rng(seed) {
+    let x = seed || 1;
+    return () => {
+        x ^= x << 13;
+        x ^= x >>> 17;
+        x ^= x << 5;
+        return ((x >>> 0) % 100000) / 100000;
+    };
+}
+const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const f1 = (n) => n.toFixed(1);
+// Breite der Großbuchstaben von Inter Bold in em (genähert)
+const CW = { I: 0.32, J: 0.56, L: 0.6, E: 0.63, F: 0.61, T: 0.66, S: 0.67, Z: 0.66, P: 0.68, R: 0.7, B: 0.71, K: 0.72, X: 0.72, Y: 0.7, V: 0.72, A: 0.75, C: 0.75, U: 0.77, D: 0.77, H: 0.79, N: 0.79, G: 0.79, O: 0.81, Q: 0.81, Ö: 0.81, Ä: 0.75, Ü: 0.77, M: 0.94, W: 1.04, ' ': 0.27 };
+const textW = (t) => [...t].reduce((a, ch) => { var _a; return a + ((_a = CW[ch]) !== null && _a !== void 0 ? _a : (/[0-9]/.test(ch) ? 0.66 : /[.,:;'!?\-–&]/.test(ch) ? 0.34 : 0.7)); }, 0) - t.length * 0.03;
+/** Titel auf bis zu 3 Zeilen umbrechen, Schriftgröße so groß wie möglich */
+function fitTitle(title, maxW, maxH, maxSize) {
+    // „F I R S T“ → ein Wort, das nicht getrennt wird
+    const t0 = title.toUpperCase().replace(/\b(\w)( \w\b)+/g, (m) => m.replace(/ /g, '\u00a0'));
+    const words = t0.replace(/\s+–\s+/g, ' – ').split(/ +/).filter(Boolean);
+    let best = { lines: [title.toUpperCase()], size: 20 };
+    for (let n = 1; n <= 3; n++) {
+        // gleichmäßig auf n Zeilen verteilen
+        const total = words.join(' ').length;
+        const target = total / n;
+        const lines = [];
+        let cur = '';
+        for (const w of words) {
+            if (cur && (cur + ' ' + w).length > target * 1.15 && lines.length < n - 1) {
+                lines.push(cur);
+                cur = w;
+            }
+            else
+                cur = cur ? cur + ' ' + w : w;
+        }
+        lines.push(cur);
+        const longest = Math.max(...lines.map((l) => textW(l.replace(/\u00a0/g, ' '))));
+        const byW = maxW / longest;
+        const byH = maxH / (lines.length * 0.95);
+        const size = Math.min(maxSize, byW, byH);
+        if (size > best.size)
+            best = { lines, size };
+    }
+    return best;
+}
+function titleBlock(t, x, yTop, maxW, maxH, maxSize, p, anchor, glow) {
+    const { lines, size } = fitTitle(t, maxW, maxH, maxSize);
+    const lh = size * 0.93;
+    let o = '';
+    lines.forEach((l, i) => {
+        const y = yTop + size * 0.82 + i * lh;
+        const common = `x="${f1(x)}" y="${f1(y)}" font-family="Inter_700Bold, Inter, Arial Black, sans-serif" font-weight="800" font-size="${f1(size)}" letter-spacing="${f1(-size * 0.03)}" text-anchor="${anchor}"`;
+        if (glow)
+            o += `<text ${common} fill="${p.a}" opacity="0.55" dx="3" dy="3">${esc(l)}</text>`;
+        o += `<text ${common} fill="${p.ink}">${esc(l)}</text>`;
+    });
+    return { svg: o, bottom: yTop + lines.length * lh + size * 0.1 };
+}
+function small(x, y, txt, fill, size = 13, anchor = 'start', spacing = 2.2, opacity = 1) {
+    return `<text x="${f1(x)}" y="${f1(y)}" font-family="Inter_700Bold, Inter, Arial, sans-serif" font-weight="700" font-size="${size}" letter-spacing="${spacing}" fill="${fill}" text-anchor="${anchor}" opacity="${opacity}">${esc(txt)}</text>`;
+}
+function ageBadge(e, p, x, y) {
+    if (e.fam || !e.age)
+        return '';
+    const label = e.ageMax ? `${e.age}–${e.ageMax}` : `${e.age}+`;
+    const w = e.ageMax ? 64 : 50;
+    return (`<rect x="${x - w}" y="${y}" width="${w}" height="28" rx="14" fill="${e.ageSrc === 'law' ? 'none' : p.a}" stroke="${p.a}" stroke-width="2"/>` +
+        small(x - w / 2, y + 19, label, e.ageSrc === 'law' ? p.a : p.bg0, 13, 'middle', 0.5));
+}
+/** Untere Leiste: großes Datum links, Location rechts */
+function footer(e, p) {
+    const d = e.date;
+    const dateTxt = e.end ? `BIS ${e.end.getDate()}. ${MO[e.end.getMonth()]}` : `${WD[d.getDay()]} ${d.getDate()}.${d.getMonth() + 1}.`;
+    const timeTxt = e.end ? (e.time ? `TÄGLICH AB ${e.time}` : 'TÄGLICH') : e.time ? `${e.time} UHR` : 'START TBA';
+    return (`<rect x="0" y="420" width="400" height="80" fill="${p.bg0}" opacity="0.72"/>` +
+        `<rect x="24" y="420" width="352" height="1.5" fill="${p.a}" opacity="0.8"/>` +
+        `<text x="24" y="466" font-family="Inter_700Bold, Inter, Arial Black, sans-serif" font-weight="800" font-size="${e.end ? 24 : 32}" letter-spacing="-1" fill="${p.ink}">${esc(dateTxt)}</text>` +
+        small(24, 486, timeTxt, p.sub, 11, 'start', 2) +
+        small(376, 460, e.venue.toUpperCase().slice(0, 22), p.ink, 13, 'end', 1.6) +
+        small(376, 480, e.town.toUpperCase().slice(0, 24), p.sub, 11, 'end', 2, 0.9));
+}
+function grain(id, p) {
+    return (`<pattern id="${id}n" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.6" fill="${p.ink}" opacity="0.10"/><circle cx="4" cy="4" r="0.5" fill="${p.ink}" opacity="0.06"/></pattern>`);
+}
+// ---------- Stile ----------
+function laser(r, id, p) {
+    let o = `<radialGradient id="${id}h" cx="0.5" cy="0.18" r="0.7"><stop offset="0" stop-color="${p.a}" stop-opacity="0.75"/><stop offset="1" stop-color="${p.a}" stop-opacity="0"/></radialGradient>`;
+    let body = `<rect width="400" height="500" fill="url(#${id}h)"/>`;
+    const ox = 140 + r() * 120;
+    for (let i = 0; i < 14; i++) {
+        const ang = (-75 + (150 * i) / 13 + (r() - 0.5) * 6) * (Math.PI / 180);
+        const len = 700;
+        const x2 = ox + Math.sin(ang) * len;
+        const y2 = 40 + Math.cos(ang) * len;
+        const col = i % 3 === 0 ? p.b : p.a;
+        body += `<line x1="${f1(ox)}" y1="40" x2="${f1(x2)}" y2="${f1(y2)}" stroke="${col}" stroke-width="${f1(1 + r() * 2.2)}" opacity="${f1(0.25 + r() * 0.5)}"/>`;
+    }
+    body += `<circle cx="${f1(ox)}" cy="40" r="10" fill="${p.ink}"/><circle cx="${f1(ox)}" cy="40" r="34" fill="${p.a}" opacity="0.35"/>`;
+    return { defs: o, body };
+}
+function synth(r, id, p) {
+    const defs = `<linearGradient id="${id}s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${p.b}"/><stop offset="1" stop-color="${p.a}"/></linearGradient>`;
+    let body = `<circle cx="200" cy="250" r="118" fill="url(#${id}s)"/>`;
+    for (let i = 0; i < 7; i++)
+        body += `<rect x="70" y="${250 + i * 16}" width="260" height="${3 + i * 1.6}" fill="${p.bg1}"/>`;
+    body += `<rect x="0" y="300" width="400" height="200" fill="${p.bg0}"/>`;
+    for (let i = 0; i <= 14; i++) {
+        const x = -300 + i * 71;
+        body += `<line x1="200" y1="300" x2="${x}" y2="520" stroke="${p.a}" stroke-width="1.3" opacity="0.7"/>`;
+    }
+    for (let i = 0; i < 9; i++) {
+        const y = 300 + Math.pow(i / 8, 2) * 200;
+        body += `<line x1="0" y1="${f1(y)}" x2="400" y2="${f1(y)}" stroke="${p.a}" stroke-width="1.2" opacity="${f1(0.3 + i * 0.07)}"/>`;
+    }
+    body += `<rect x="0" y="298" width="400" height="3" fill="${p.b}" opacity="0.9"/>`;
+    return { defs, body };
+}
+function halftone(r, id, p) {
+    const defs = `<pattern id="${id}d" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="2.6" fill="${p.a}"/></pattern>`;
+    let body = '';
+    // Sonnenstrahlen
+    for (let i = 0; i < 18; i++) {
+        const a0 = (i / 18) * Math.PI * 2;
+        const a1 = a0 + Math.PI / 18;
+        body += `<path d="M200 240 L${f1(200 + Math.cos(a0) * 600)} ${f1(240 + Math.sin(a0) * 600)} L${f1(200 + Math.cos(a1) * 600)} ${f1(240 + Math.sin(a1) * 600)} Z" fill="${p.b}" opacity="0.10"/>`;
+    }
+    body += `<circle cx="${f1(290 + r() * 40)}" cy="${f1(120 + r() * 40)}" r="120" fill="url(#${id}d)" opacity="0.55"/>`;
+    body += `<rect x="-60" y="${f1(250 + r() * 40)}" width="560" height="54" fill="${p.a}" transform="rotate(-14 200 280)" opacity="0.9"/>`;
+    body += `<rect x="-60" y="${f1(320 + r() * 30)}" width="560" height="14" fill="${p.b}" transform="rotate(-14 200 280)" opacity="0.85"/>`;
+    return { defs, body };
+}
+function stage(r, id, p) {
+    const defs = `<linearGradient id="${id}c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${p.ink}" stop-opacity="0.55"/><stop offset="1" stop-color="${p.a}" stop-opacity="0"/></linearGradient>`;
+    let body = '';
+    const xs = [70, 160, 240, 330];
+    xs.forEach((x, i) => {
+        const sway = (r() - 0.5) * 120;
+        body += `<path d="M${x} -10 L${x + 14} -10 L${f1(x + 90 + sway)} 430 L${f1(x - 80 + sway)} 430 Z" fill="url(#${id}c)" opacity="${f1(0.5 + (i % 2) * 0.2)}"/>`;
+    });
+    // Bühne + Publikum
+    body += `<rect x="0" y="352" width="400" height="8" fill="${p.a}" opacity="0.8"/>`;
+    let d = 'M0 500 L0 410';
+    for (let x = 0; x <= 400; x += 18) {
+        const h = 395 - r() * 22;
+        d += ` Q${x + 4} ${f1(h - 12)} ${x + 9} ${f1(h)} Q${x + 14} ${f1(h - 12)} ${x + 18} 410`;
+        if (r() > 0.72)
+            d += ` L${x + 12} ${f1(350 - r() * 40)} L${x + 16} ${f1(352 - r() * 30)} L${x + 18} 410`;
+    }
+    body += `<path d="${d} L400 500 Z" fill="${p.bg0}"/>`;
+    return { defs, body };
+}
+function lights(r, id, p) {
+    const defs = `<radialGradient id="${id}b" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="${p.a}" stop-opacity="0.9"/><stop offset="1" stop-color="${p.a}" stop-opacity="0"/></radialGradient>`;
+    let body = '';
+    for (let row = 0; row < 3; row++) {
+        const y0 = 40 + row * 46;
+        body += `<path d="M-10 ${y0} Q200 ${y0 + 80} 410 ${y0}" stroke="${p.sub}" stroke-opacity="0.35" stroke-width="1.2" fill="none"/>`;
+        for (let k = 0; k <= 14; k++) {
+            const t = k / 14;
+            const x = -10 + 420 * t;
+            const y = (1 - t) * (1 - t) * y0 + 2 * (1 - t) * t * (y0 + 80) + t * t * y0 + 5;
+            body += `<circle cx="${f1(x)}" cy="${f1(y)}" r="13" fill="url(#${id}b)"/><circle cx="${f1(x)}" cy="${f1(y)}" r="3.2" fill="${p.b}"/>`;
+        }
+    }
+    // Festzelt
+    body += `<path d="M30 420 L30 330 L120 280 L200 250 L280 280 L370 330 L370 420 Z" fill="${p.bg0}" opacity="0.9"/>`;
+    body += `<path d="M200 250 L170 420 M200 250 L230 420" stroke="${p.a}" stroke-opacity="0.4" stroke-width="2"/>`;
+    return { defs, body };
+}
+function deco(r, id, p) {
+    const defs = `<radialGradient id="${id}g" cx="0.5" cy="0.35" r="0.6"><stop offset="0" stop-color="${p.a}" stop-opacity="0.35"/><stop offset="1" stop-color="${p.a}" stop-opacity="0"/></radialGradient>`;
+    let body = `<rect width="400" height="500" fill="url(#${id}g)"/>`;
+    body += `<rect x="18" y="18" width="364" height="390" fill="none" stroke="${p.a}" stroke-width="1.5"/>`;
+    body += `<rect x="28" y="28" width="344" height="370" fill="none" stroke="${p.a}" stroke-width="0.8" opacity="0.6"/>`;
+    for (let i = 0; i < 11; i++) {
+        const a = (-80 + i * 16) * (Math.PI / 180);
+        body += `<line x1="200" y1="120" x2="${f1(200 + Math.sin(a) * 90)}" y2="${f1(120 - Math.cos(a) * 90)}" stroke="${p.a}" stroke-width="1" opacity="0.7"/>`;
+    }
+    body += `<path d="M200 70 L222 120 L200 170 L178 120 Z" fill="none" stroke="${p.b}" stroke-width="1.6"/><circle cx="200" cy="120" r="6" fill="${p.b}"/>`;
+    return { defs, body };
+}
+function waves(r, id, p) {
+    const defs = `<radialGradient id="${id}w" cx="0.7" cy="0.25" r="0.6"><stop offset="0" stop-color="${p.b}" stop-opacity="0.55"/><stop offset="1" stop-color="${p.b}" stop-opacity="0"/></radialGradient>`;
+    let body = `<rect width="400" height="500" fill="url(#${id}w)"/>`;
+    for (let i = 0; i < 16; i++) {
+        const y = 40 + i * 17;
+        const amp = 14 + r() * 26;
+        const ph = r() * 400;
+        let d = `M-20 ${y}`;
+        for (let x = -20; x <= 420; x += 20)
+            d += ` L${x} ${f1(y + Math.sin((x + ph) / 46) * amp * (0.4 + i / 16))}`;
+        body += `<path d="${d}" stroke="${i % 4 === 0 ? p.b : p.a}" stroke-width="${f1(1 + (i % 3) * 0.6)}" fill="none" opacity="${f1(0.35 + (i / 16) * 0.55)}"/>`;
+    }
+    return { defs, body };
+}
+function outline(r, id, p, word) {
+    const w = (word.split(/\s+/).sort((a, b) => b.length - a.length)[0] || 'NIGHT').toUpperCase();
+    const size = Math.min(150, 380 / Math.max(2, textW(w)));
+    let body = '';
+    for (let i = 0; i < 4; i++) {
+        body += `<text x="${f1(-10 + (i % 2) * 30)}" y="${f1(110 + i * size * 0.82)}" font-family="Inter_700Bold, Inter, Arial Black, sans-serif" font-weight="800" font-size="${f1(size)}" letter-spacing="${f1(-size * 0.04)}" fill="none" stroke="${i === 1 ? p.a : p.b}" stroke-width="1.6" opacity="${i === 1 ? 0.9 : 0.35}">${esc(w)}</text>`;
+    }
+    body += `<circle cx="${f1(80 + r() * 240)}" cy="${f1(120 + r() * 120)}" r="70" fill="${p.a}" opacity="0.18"/>`;
+    return { defs: '', body };
+}
+function krampus(r, id, p) {
+    const defs = `<radialGradient id="${id}f" cx="0.5" cy="0.9" r="0.7"><stop offset="0" stop-color="#FF5A1F" stop-opacity="0.9"/><stop offset="1" stop-color="#FF5A1F" stop-opacity="0"/></radialGradient>`;
+    let body = `<rect width="400" height="500" fill="url(#${id}f)"/>`;
+    // Hörner + Fratze als Silhouette
+    body += `<g transform="translate(0 95)"><path d="M120 250 C 60 200, 60 120, 110 70 C 105 130, 130 170, 165 195 Z M280 250 C 340 200, 340 120, 290 70 C 295 130, 270 170, 235 195 Z" fill="#0B0202"/>`;
+    body += `<path d="M150 190 Q200 150 250 190 L262 300 Q200 360 138 300 Z" fill="#0B0202"/>`;
+    body += `<path d="M168 238 L190 248 L168 254 Z M232 238 L210 248 L232 254 Z" fill="#FFB800"/></g>`;
+    for (let i = 0; i < 30; i++)
+        body += `<circle cx="${f1(r() * 400)}" cy="${f1(250 + r() * 200)}" r="${f1(1 + r() * 2.5)}" fill="#FFB800" opacity="${f1(0.3 + r() * 0.7)}"/>`;
+    return { defs, body };
+}
+function ice(r, id, p) {
+    const defs = `<linearGradient id="${id}i" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${p.a}" stop-opacity="0.5"/><stop offset="1" stop-color="${p.a}" stop-opacity="0"/></linearGradient>`;
+    let body = '';
+    for (let i = 0; i < 9; i++) {
+        const cx = r() * 400, cy = r() * 380, s = 10 + r() * 22;
+        let d = '';
+        for (let k = 0; k < 6; k++) {
+            const a = (k * Math.PI) / 3;
+            d += `M${f1(cx)} ${f1(cy)} L${f1(cx + Math.cos(a) * s)} ${f1(cy + Math.sin(a) * s)} `;
+        }
+        body += `<path d="${d}" stroke="#fff" stroke-width="1.6" opacity="${f1(0.35 + r() * 0.5)}" stroke-linecap="round"/>`;
+    }
+    body += `<ellipse cx="200" cy="420" rx="260" ry="70" fill="url(#${id}i)"/>`;
+    for (let i = 0; i < 6; i++)
+        body += `<path d="M${f1(40 + i * 60)} 430 q40 -${f1(10 + r() * 20)} 80 0" stroke="#fff" stroke-width="1.2" fill="none" opacity="0.5"/>`;
+    return { defs, body };
+}
+function advent(r, id, p) {
+    const defs = `<radialGradient id="${id}k" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="${p.a}" stop-opacity="0.85"/><stop offset="1" stop-color="${p.a}" stop-opacity="0"/></radialGradient>`;
+    let body = '';
+    for (let i = 0; i < 26; i++)
+        body += `<circle cx="${f1(r() * 400)}" cy="${f1(r() * 330)}" r="${f1(8 + r() * 26)}" fill="url(#${id}k)" opacity="${f1(0.3 + r() * 0.6)}"/>`;
+    for (let i = 0; i < 40; i++)
+        body += `<circle cx="${f1(r() * 400)}" cy="${f1(r() * 420)}" r="${f1(0.8 + r() * 1.8)}" fill="#fff" opacity="${f1(0.4 + r() * 0.5)}"/>`;
+    // Stern
+    body += `<path d="M200 58 L207 79 L229 79 L211 92 L218 113 L200 100 L182 113 L189 92 L171 79 L193 79 Z" fill="${p.b}"/>`;
+    // Standl-Hütten mit warmem Licht
+    const huts = [[0, 100, 352], [92, 118, 336], [200, 100, 356], [292, 108, 342]];
+    huts.forEach(([x, w, top]) => {
+        body += `<path d="M${x} 420 L${x} ${top + 22} L${x + w / 2} ${top} L${x + w} ${top + 22} L${x + w} 420 Z" fill="#05070A" stroke="${p.a}" stroke-opacity="0.35" stroke-width="1"/>`;
+        body += `<rect x="${x + 10}" y="${top + 30}" width="${w - 20}" height="34" rx="4" fill="#FFB347" opacity="0.25"/>`;
+        body += `<rect x="${x + 14}" y="${top + 36}" width="${w - 28}" height="22" rx="3" fill="#FFC56B"/>`;
+        body += `<path d="M${x + 8} ${top + 34} L${x + w - 8} ${top + 34}" stroke="#E23B3B" stroke-width="5"/>`;
+    });
+    return { defs, body };
+}
+/** SVG-Text für ein Event-Plakat (viewBox 400 × 500) */
+function posterSvg(e, opts = {}) {
+    const seed = hash(String(e.id) + e.title + e.venue);
+    const r = rng(seed);
+    const id = 'p' + (seed % 1e7).toString(36);
+    const p = e.fam ? FAM[seed % FAM.length] : e.kind === 'ball' ? GOLD : NIGHT[seed % NIGHT.length];
+    const tl = e.title.toLowerCase();
+    const style = e.fam
+        ? /krampus|perchten/.test(tl)
+            ? krampus
+            : e.kind === 'ausflug' || /eis/.test(tl)
+                ? ice
+                : advent
+        : e.kind === 'ball'
+            ? deco
+            : e.kind === 'konzert'
+                ? stage
+                : e.kind === 'fest'
+                    ? lights
+                    : e.kind === 'party'
+                        ? [halftone, synth, waves, outline][seed % 4]
+                        : [laser, synth, waves, outline, laser][seed % 5];
+    const art = style === outline ? outline(r, id, p, e.title) : style(r, id, p);
+    const bgDefs = `<linearGradient id="${id}bg" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="${p.bg1}"/><stop offset="1" stop-color="${p.bg0}"/></linearGradient>` + grain(id, p);
+    const shade = `<linearGradient id="${id}sh" x1="0" y1="0" x2="0" y2="1"><stop offset="0.35" stop-color="${p.bg0}" stop-opacity="0"/><stop offset="1" stop-color="${p.bg0}" stop-opacity="0.92"/></linearGradient>`;
+    let fg = '';
+    if (!opts.compact) {
+        // Kopfzeile
+        const head = e.fam ? `${(e.kind === 'markt' ? 'ADVENT' : e.kind === 'kinder' ? 'FÜR KINDER' : e.kind === 'ausflug' ? 'AUSFLUG' : 'BRAUCHTUM')} · ${e.town.toUpperCase()}` : `${e.venue.toUpperCase().slice(0, 26)} PRESENTS`;
+        fg += small(24, 40, head, p.sub, 11, 'start', 2.6, 0.9);
+        fg += ageBadge(e, p, 376, 22);
+        // Titel: bei Ball/Advent zentriert oben, sonst links unten über der Fußzeile
+        const centered = !opts.photo && (e.fam || e.kind === 'ball');
+        if (centered) {
+            const tb = titleBlock(e.title, 200, e.fam ? 140 : 196, 340, e.fam ? 170 : 150, e.fam ? 60 : 64, p, 'middle', !!e.fam);
+            fg += tb.svg;
+        }
+        else {
+            const { lines, size } = fitTitle(e.title, 352, 170, 78);
+            const h = lines.length * size * 0.93;
+            const tb = titleBlock(e.title, 24, 404 - h, 352, 170, 78, p, 'start', true);
+            fg += tb.svg;
+        }
+        fg += footer(e, p);
+    }
+    if (opts.photo) {
+        // Über einem echten Foto: Farbstich in der Event-Farbe, Neon-Rahmen, Schrift
+        const tint = `<linearGradient id="${id}t" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${p.a}" stop-opacity="0.55"/><stop offset="0.55" stop-color="${p.b}" stop-opacity="0.12"/><stop offset="1" stop-color="${p.bg0}" stop-opacity="0.35"/></linearGradient>` +
+            `<linearGradient id="${id}d" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="0.22" stop-color="#000" stop-opacity="0"/><stop offset="0.45" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="${p.bg0}" stop-opacity="0.96"/></linearGradient>`;
+        const accent = opts.compact
+            ? ''
+            : e.fam || e.kind === 'ball'
+                ? `<rect x="14" y="14" width="372" height="472" fill="none" stroke="${p.a}" stroke-width="1.5" opacity="0.85"/>`
+                : `<rect x="0" y="0" width="7" height="500" fill="${p.a}"/><path d="M400 ${f1(60 + (seed % 80))} L330 ${f1(140 + (seed % 80))}" stroke="${p.b}" stroke-width="3" opacity="0.9"/>`;
+        return (`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">` +
+            `<defs>${tint}${grain(id, p)}</defs>` +
+            `<rect width="400" height="500" fill="url(#${id}t)"/>` +
+            `<rect width="400" height="500" fill="url(#${id}d)"/>` +
+            `<rect width="400" height="500" fill="url(#${id}n)"/>` +
+            accent +
+            fg +
+            `</svg>`);
+    }
+    return (`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">` +
+        `<defs>${bgDefs}${shade}${art.defs}</defs>` +
+        `<rect width="400" height="500" fill="url(#${id}bg)"/>` +
+        art.body +
+        `<rect width="400" height="500" fill="url(#${id}sh)"/>` +
+        `<rect width="400" height="500" fill="url(#${id}n)"/>` +
+        fg +
+        `</svg>`);
+}
+
+var strip=document.getElementById('evstrip'),stats=document.getElementById('evstats');if(!strip)return;
+var pd=function(x){var a=x.split('-');return new Date(+a[0],a[1]-1,+a[2])};
+fetch('events.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(f){
+  var t=new Date();t.setHours(0,0,0,0);
+  var out=f.events.filter(function(e){return !e.fam&&pd(e.date)>=t});
+  var near=out.filter(function(e){return e.lat>47.6&&e.lat<48.5&&e.lon>15.5&&e.lon<16.7});
+  var pick=near.filter(function(e){return e.hot}).concat(near.filter(function(e){return !e.hot}));
+  var seen={},list=[];pick.sort(function(a,b){return a.date<b.date?-1:1});
+  pick.filter(function(e){return e.hot}).concat(pick).forEach(function(e){if(list.length<10&&!seen[e.venue]){seen[e.venue]=1;list.push(e)}});
+  list.sort(function(a,b){return a.date<b.date?-1:1});
+  strip.innerHTML=list.map(function(e){var x={id:e.id,title:e.title,venue:e.venue,town:e.town,kind:e.kind,fam:false,date:pd(e.date),time:e.time,age:e.age,ageMax:e.ageMax,ageSrc:e.ageSrc,end:null};
+    return '<a class="evp" href="#laden" aria-label="'+e.title.replace(/"/g,'')+', '+e.venue+'">'+posterSvg(x,{compact:true})+'<img loading="lazy" alt="" onerror="this.remove()" src="'+posterPhoto(x,520)+'">'+posterSvg(x,{photo:true})+'</a>'}).join('');
+  var v={};out.forEach(function(e){v[e.venue]=1});
+  stats.innerHTML='<span><b>'+out.length+'</b> kommende Events</span><span><b>'+Object.keys(v).length+'</b> Clubs &amp; Locations</span><span>Stand <b>'+pd(f.updated).toLocaleDateString('de-AT',{day:'numeric',month:'long'})+'</b></span>';
+}).catch(function(){strip.parentNode.parentNode.style.display='none'});
 })();
 </script>
 </body>
